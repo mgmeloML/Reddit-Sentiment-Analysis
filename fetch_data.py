@@ -18,7 +18,7 @@ def get_posts(subreddit_name, query):
     subreddit = reddit.subreddit(subreddit_name)
     title, text, post_time, url = [], [], [], []
     
-    for submission in subreddit.search(query, limit=None):
+    for submission in subreddit.search(query, limit=1):
         title.append(submission.title)
         text.append(submission.selftext)
         post_time.append(datetime.fromtimestamp(submission.created_utc))
@@ -58,7 +58,9 @@ def fetch_data(query):
             continue
 
     if all_data:
-        return pd.concat(all_data, ignore_index=True)
+        df = pd.concat(all_data, ignore_index=True)
+        df["Post Time"] = df["Post Time"].dt.strftime('%m/%Y')
+        return df
     else:
         return pd.DataFrame(columns=["Title", "Subreddit", "Post Time", "Text"])
 

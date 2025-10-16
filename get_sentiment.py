@@ -1,12 +1,15 @@
 import pandas as pd
 from transformers import pipeline
+import torch
 import re
 
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model = pipeline(
     "text-classification",
     model="MarieAngeA13/Sentiment-Analysis-BERT",
-    device=0
+    device=device
 )
 
 def clean_text(text):

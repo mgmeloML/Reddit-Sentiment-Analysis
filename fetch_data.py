@@ -7,7 +7,7 @@ from prawcore.exceptions import Forbidden
 reddit = praw.Reddit(
     client_id="wj7PoB3ttKVVo5_GWuOTKg",
     client_secret="RxFAlKUfMVIbMkn9hs_Rh05KZQb6SQ",
-    user_agent="mgmeloML.reddit_sentiment:v2.1 (by /u/Dazzling_Papaya821; +https://github.com/mgmeloML)"
+    user_agent="mgmeloML.reddit_sentiment:v4.3 (by /u/Dazzling_Papaya821; +https://github.com/mgmeloML)"
 )
 
 def get_subreddits(query):
@@ -18,7 +18,7 @@ def get_posts(subreddit_name, query):
     subreddit = reddit.subreddit(subreddit_name)
     title, text, post_time, url = [], [], [], []
     
-    for submission in subreddit.search(query, limit=1):
+    for submission in subreddit.search(query, limit=None):
         title.append(submission.title)
         text.append(submission.selftext)
         post_time.append(datetime.fromtimestamp(submission.created_utc))

@@ -73,7 +73,7 @@ def sentiment_line_chart(df, subreddits, start_date, end_date):
 def show_examples(df, subreddits, start_date, end_date):
   df = subreddit_range(df, subreddits)
   df = time_range(df, start_date, end_date)
-  df.drop(axis=1,columns="Title + Text")
+  df = df.drop(axis=1,columns="Title + Text")
   df["Sentiment"] = df["Sentiment"].str.lower()
   df_pos = df[df["Sentiment"] == "positive"]
   df_neu = df[df["Sentiment"] == "neutral"]

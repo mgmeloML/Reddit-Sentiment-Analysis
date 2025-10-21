@@ -3,22 +3,31 @@ import pandas as pd
 import time
 from datetime import datetime
 from prawcore.exceptions import Forbidden
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+client_id = os.getenv("CLIENT_ID")
+client_secret = os.getenv("CLIENT_SECRET")
+user_agent = os.getenv("USER_AGENT")
+
 
 reddit = praw.Reddit(
-    client_id="wj7PoB3ttKVVo5_GWuOTKg",
-    client_secret="RxFAlKUfMVIbMkn9hs_Rh05KZQb6SQ",
-    user_agent="mgmeloML.reddit_sentiment:v4.3 (by /u/Dazzling_Papaya821; +https://github.com/mgmeloML)"
+    client_id = client_id,
+    client_secret = client_secret,
+    user_agent = user_agent
 )
 
 def get_subreddits(query):
     searched = reddit.subreddits.search(query)
     return [i.display_name for i in searched]
 
-def get_posts(subreddit_name, query):
+def get_posts(subreddit_name, query, limit):
     subreddit = reddit.subreddit(subreddit_name)
     title, text, post_time, url = [], [], [], []
     
-    for submission in subreddit.search(query, limit=None):
+    for submission in subreddit.search(query, limit=limit):
         title.append(submission.title)
         text.append(submission.selftext)
         post_time.append(datetime.fromtimestamp(submission.created_utc))
@@ -32,13 +41,13 @@ def get_posts(subreddit_name, query):
         "Link": url
     })
 
-def fetch_data(query):
+def fetch_data(query, limit):
     subreddits = get_subreddits(query)
     all_data = []
     
     for subreddit in subreddits:
         try:
-            df = get_posts(subreddit, query)
+            df = get_posts(subreddit, query, limit)
             all_data.append(df)
             print(f"Fetched {len(df)} posts from r/{subreddit}")
 

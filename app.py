@@ -12,14 +12,14 @@ with st.sidebar:
     st.header("Search Settings")
 
     keyword = st.text_input("Enter a keyword to analyse sentiment")
-
+    limit = st.number_input("Enter the number of posts you want from each subreddit", value=20, step=1)
     if st.button("Fetch & Analyse"):
         if not keyword.strip():
             st.warning("Please enter a keyword.")
         else:
             with st.spinner("Fetching Reddit data and analysing sentiment..."):
                 try:
-                    df = sentiment(fetch_data(keyword))
+                    df = sentiment(fetch_data(keyword, limit))
                     st.session_state.df = df
                     st.success("Data fetched and analysed successfully!")
                 except Exception as e:

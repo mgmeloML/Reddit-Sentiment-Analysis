@@ -5,9 +5,6 @@ A real-time sentiment analysis dashboard that fetches Reddit posts by keyword, r
 ---
 
 ## 📸 Demo
-
-> _Add a screenshot or screen recording of the dashboard here!_
-
 ---
 
 ## ✨ Features
